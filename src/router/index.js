@@ -20,8 +20,50 @@ const routes = [
         component: () => import("../views/kc"),
         children: [
           {
+            path: '',
+            component: () => import("../views/kc/KcHome.vue")
+          },
+          {
             path: 'lv8',
-            component: () => import("../views/kc/level8")
+            component: () => import("../views/kc/lv8"),
+            children: [
+              {
+                path: '',
+                component: () => import('../views/kc/lv8/Home.vue')
+              },
+              {
+                path: 'letters',
+                component: () => import('../views/kc/lv8/Letters.vue')
+              }
+            ]
+          },
+          {
+            path: 'lv7',
+            component: () => import("../views/kc/lv7")
+          },
+          {
+            path: 'lv6',
+            component: () => import("../views/kc/lv6")
+          },
+          {
+            path: 'lv5',
+            component: () => import("../views/kc/lv5")
+          },
+          {
+            path: 'lv4',
+            component: () => import("../views/kc/lv4")
+          },
+          {
+            path: 'lv3',
+            component: () => import("../views/kc/lv3")
+          },
+          {
+            path: 'lv2',
+            component: () => import("../views/kc/lv2")
+          },
+          {
+            path: 'lv1',
+            component: () => import("../views/kc/lv1")
           }
         ]
       }
