@@ -3,11 +3,10 @@ import VueRouter from "vue-router";
 import MainLayout from "../layout/MainLayout.vue";
 import Home from "../views/Home.vue";
 import SelectedHanja from "../views/SelectedHanja.vue";
-import PictureHanja from "../views/PictureHanja.vue";
-import Practice from "../views/Practice.vue";
 import TestBank from "../views/TestBank.vue";
 import FourLetters from "../views/FourLetters.vue";
 import LoginForm from "../views/LoginForm.vue";
+import Quiz from "../views/Quiz.vue";
 
 Vue.use(VueRouter);
 
@@ -25,20 +24,16 @@ const routes = [
         component: SelectedHanja
       },
       {
-        path: 'picture-hanja',
-        component: PictureHanja
-      },
-      {
-        path: 'practice',
-        component: Practice
-      },
-      {
         path: 'test-bank',
         component: TestBank
       },
       {
         path: 'four-letters',
         component: FourLetters
+      },
+      {
+        path: 'quiz',
+        component: Quiz
       },
     ]
   },

@@ -5,20 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isDimCoverOpen: false,
-    isModalCoverOpen: false,
-    isShowScrollUp: true,
+    isModalOpen: false,
+    modalBody: null
   },
   mutations: {
-    setDimCoverState(state, isOpen) {
-      state.isDimCoverOpen = isOpen;
+    openModal(state, payload) {
+      state.isModalOpen = true;
+      state.modalBody = payload;
     },
-    setModalCoverState(state, isOpen) {
-      state.isModalCoverOpen = isOpen;
-    },
-    setScrollUpState(state, isShow) {
-      state.isShowScrollUp = isShow;
-    },
+    closeModal(state) {
+      state.isModalOpen = false;
+      state.modalBody = null;
+    }
   },
   actions: {},
   modules: {},

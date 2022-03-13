@@ -1,15 +1,18 @@
 <template>
-  <div class="col jc-center ai-center" style="height: 100%">
+  <div
+    class="col jc-center ai-center"
+    style="height: 100%; background-color: #ddd"
+  >
     <div class="login-form">
       <h1>로그인</h1>
       <div>
         <label>
           아이디
-          <input type="text" />
+          <input type="text" id="hanja_study_account"/>
         </label>
         <label>
           비밀번호
-          <input type="password" />
+          <input type="password" id="hanja_study_pwd"/>
         </label>
         <div class="login-btn-group">
           <button class="login-btn">로그인</button>
@@ -31,7 +34,8 @@ export default {};
 .login-form {
   padding: 2rem;
   width: 25rem;
-  border: 1px solid #ccc;
+  box-shadow: 1px 1px 8px 4px #bbb;
+  background-color: white;
   label {
     margin-bottom: 1rem;
     display: block;

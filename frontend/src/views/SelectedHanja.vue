@@ -3,7 +3,7 @@
     <CommonFilter></CommonFilter>
     <div class="col2-content">
       <h1>선정한자</h1>
-      <div class="row jc-between mb-05 no-print">
+      <div class="row jc-between mb-1 no-print">
         <div class="top-btn-subgroup">
           <button @click="hideLetter = !hideLetter">
             <span>한자</span>
@@ -20,9 +20,15 @@
           <button @click="print('all')">모든 페이지 다운로드</button>
           <button @click="print('current')">현재 페이지 다운로드</button>
         </div>
+        <div>
+          <button @click="openAddHanjaModal">한자추가(관리자전용)</button>
+        </div>
       </div>
       <div class="selected-hanjas">
         <div v-for="hanja in hanjas" :key="hanja.id" class="hanja-letter">
+          <div>
+            <router-link to="">상세보기</router-link>
+          </div>
           <div class="letter" :class="{ 'hide-letter': hideLetter }">
             {{ hanja.letter }}
           </div>
@@ -40,19 +46,25 @@
 <script>
 import CommonFilter from "../component/CommonFilter";
 import axiso from "axios";
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiDotsVertical } from "@mdi/js";
 
 export default {
-  components: { CommonFilter },
+  components: { CommonFilter, SvgIcon },
   data() {
     return {
       hanjas: [],
       hideLetter: false,
       hideMeta: false,
+      mdiDotsVertical: mdiDotsVertical,
     };
   },
   methods: {
     print() {
       print();
+    },
+    openAddHanjaModal() {
+      this.$store.commit("openModal");
     },
   },
   created() {

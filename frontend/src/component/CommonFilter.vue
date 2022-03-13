@@ -1,6 +1,10 @@
 <template>
   <div class="commonfilter no-print">
     <div>
+      <div>직접검색</div>
+      <div><input type="text" /><button>검색</button></div>
+    </div>
+    <div>
       <div class="mb-05">시행기관</div>
       <div class="commonfilter-subgroup">
         <label>
