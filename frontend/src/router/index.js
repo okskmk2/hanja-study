@@ -7,6 +7,7 @@ import PictureHanja from "../views/PictureHanja.vue";
 import Practice from "../views/Practice.vue";
 import TestBank from "../views/TestBank.vue";
 import FourLetters from "../views/FourLetters.vue";
+import LoginForm from "../views/LoginForm.vue";
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,10 @@ const routes = [
         component: FourLetters
       },
     ]
+  },
+  {
+    path: '/login-form',
+    component: LoginForm
   },
   {
     path: "*",

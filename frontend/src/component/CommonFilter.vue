@@ -1,8 +1,8 @@
 <template>
-  <table>
-    <tr>
-      <th>시행기관</th>
-      <td>
+  <div class="commonfilter no-print">
+    <div>
+      <div class="mb-05">시행기관</div>
+      <div class="commonfilter-subgroup">
         <label>
           <input type="checkbox" value="kc" />
           대한검정회
@@ -15,11 +15,11 @@
           <input type="checkbox" value="jc" />
           한자교육진흥회
         </label>
-      </td>
-    </tr>
-    <tr>
-      <th>급수</th>
-      <td>
+      </div>
+    </div>
+    <div class="mt-1">
+      <div class="mb-05">급수</div>
+      <div class="commonfilter-subgroup">
         <label>
           <input type="checkbox" value="8" />
           8급
@@ -52,9 +52,9 @@
           <input type="checkbox" value="1" />
           1급
         </label>
-      </td>
-    </tr>
-  </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -65,26 +65,20 @@ export default {
     },
     onchangeLevel(v) {
       console.log(v.target.value);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
-table {
-  width: 100%;
-  th {
-    text-align: left;
-  }
-  th,
-  td {
-    padding: 4px;
-  }
-  tr {
-    label {
-      margin-right: 8px;
-      display: inline-flex;
-    }
+.commonfilter {
+  padding: 1rem;
+  width: 10rem;
+  background-color: #f2f2f2;
+  .commonfilter-subgroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 }
 </style>

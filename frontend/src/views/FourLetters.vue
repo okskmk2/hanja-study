@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="row">
     <CommonFilter></CommonFilter>
-    <div>사자성어</div>
+    <div class="col2-content">
+      <h1>사자성어</h1>
+    </div>
   </div>
 </template>
 
 <script>
 import CommonFilter from "../component/CommonFilter";
 export default {
-  components: { CommonFilter }
+  components: { CommonFilter },
 };
 </script>
 

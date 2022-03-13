@@ -3,8 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "@/assets/css/style.less";
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:3000';
 
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,
