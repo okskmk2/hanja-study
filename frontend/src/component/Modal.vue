@@ -1,19 +1,29 @@
 <template>
   <div class="modal-cover" v-if="$store.state.isModalOpen">
     <div class="modal-container">
-      <div>
-        <div @click="$store.commit('closeModal')">닫기</div>
-        <div>(모달내용)</div>
-        <div>
-          <button>확인</button>
-        </div>
+      <div class="row jc-end">
+        <span @click="$store.commit('closeModal')" class="icon">
+          <SvgIcon :path="mdiClose" type="mdi" />
+        </span>
       </div>
+      <portal-target name="modal"></portal-target>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiClose } from "@mdi/js";
+export default {
+  components: {
+    SvgIcon,
+  },
+  data() {
+    return {
+      mdiClose: mdiClose,
+    };
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -22,10 +32,12 @@ export default {};
   position: fixed;
   height: 100%;
   width: 100%;
+  z-index: 2000;
 }
 .modal-container {
   margin: 3rem auto;
   width: 40rem;
   background-color: white;
+  padding: 2rem 3rem;
 }
 </style>

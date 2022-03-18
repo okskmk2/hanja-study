@@ -4,11 +4,13 @@ import router from "./router";
 import store from "./store";
 import "@/assets/css/style.less";
 import axios from 'axios';
+import PortalVue from 'portal-vue';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 
 Vue.config.productionTip = false;
 
+Vue.use(PortalVue);
 
 new Vue({
   router,

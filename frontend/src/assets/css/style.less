@@ -2,6 +2,10 @@
 @import 'util';
 @import 'font.css';
 
+:root {
+  --filter_select__text: #bbb;
+}
+
 html {
   height: 100%;
 }
@@ -21,8 +25,17 @@ h6 {
   margin-top: 0;
 }
 
+#app {
+  height: 100%;
+}
 
 .col2-content {
   margin-left: 2rem;
   flex-grow: 1;
+}
+
+.filter-group {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
 }
