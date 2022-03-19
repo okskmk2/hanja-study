@@ -18,24 +18,40 @@
         <button @click="openAddHanjaModal">한자추가(관리자전용)</button>
       </div>
     </div>
-    <div class="filter-group">
-      <FilterSelect
-        :items="orgs"
-        label="기관"
-        v-model="searchingOrg"
-        @input="searchHanja"
-      />
-      <FilterSelect
-        :items="tiers"
-        label="급수"
-        v-model="searchingTier"
-        @input="searchHanja"
-      />
+    <div class="row jc-between" style="margin-bottom: 8px">
+      <div class="filter-group">
+        <FilterSelect
+          :items="orgs"
+          label="기관"
+          v-model="searchingOrg"
+          @input="searchHanja"
+        />
+        <FilterSelect
+          v-if="searchingOrg"
+          :items="tiers"
+          label="급수"
+          v-model="searchingTier"
+          @input="searchHanja"
+        />
+        <div class="checkbox">
+          <label for="searching_include">하위급수 선정한자 포함</label>
+          <input
+            id="searching_include"
+            type="checkbox"
+            v-model="searchingInclude"
+            @change="searchHanja"
+          />
+        </div>
+      </div>
+      <span v-if="hanjas.length > 0"> 총 : {{ hanjas.length }} </span>
     </div>
     <div v-if="hanjas.length > 0">
       <div class="selected-hanjas">
         <div v-for="hanja in hanjas" :key="hanja.id" class="hanja-letter">
-          <div class="row jc-end">
+          <div class="row jc-between">
+            <span>
+              {{ hanja.hanja_id }}
+            </span>
             <router-link to="/test-bank" class="icon">
               <SvgIcon :path="mdiDotsVertical" type="mdi" />
             </router-link>
@@ -70,7 +86,7 @@
       <label for="" class="block">
         급수
         <select v-model="hanjaForm.tier">
-          <option v-for="tier in tiers" :key="tier.id" :value="tier.value">
+          <option v-for="tier in formTiers" :key="tier.id" :value="tier.value">
             {{ tier.text }}
           </option>
         </select>
@@ -114,28 +130,83 @@ export default {
         meaning: null,
         sound: null,
         org: null,
-        tier: null,
+        tier: {
+          tier: null,
+          sub_tier: null,
+        },
       },
       orgs: [
-        { id: 1, text: "한국어문회", value: "G1001" },
-        { id: 2, text: "대한검정회", value: "G1002" },
-        { id: 3, text: "한자교육진흥회", value: "G1003" },
+        {
+          id: 1,
+          text: "한국어문회",
+          value: "G1001",
+          tiers: [
+            { text: "8급", value: { tier: 8, sub_tier: 1 } },
+            { text: "7급 2", value: { tier: 7, sub_tier: 2 } },
+            { text: "7급", value: { tier: 7, sub_tier: 1 } },
+            { text: "6급 2", value: { tier: 6, sub_tier: 2 } },
+            { text: "6급", value: { tier: 6, sub_tier: 1 } },
+            { text: "5급 2", value: { tier: 5, sub_tier: 2 } },
+            { text: "5급", value: { tier: 5, sub_tier: 1 } },
+            { text: "4급 2", value: { tier: 4, sub_tier: 2 } },
+            { text: "4급", value: { tier: 4, sub_tier: 1 } },
+            { text: "3급 2", value: { tier: 3, sub_tier: 2 } },
+            { text: "3급", value: { tier: 3, sub_tier: 1 } },
+            { text: "2급", value: { tier: 2, sub_tier: 1 } },
+            { text: "1급", value: { tier: 1, sub_tier: 1 } },
+            { text: "특급 2", value: { tier: 0, sub_tier: 2 } },
+            { text: "특급", value: { tier: 0, sub_tier: 1 } },
+          ],
+        },
+        {
+          id: 2,
+          text: "대한검정회",
+          value: "G1002",
+          tiers: [
+            { text: "8급", value: { tier: 8, sub_tier: 1 } },
+            { text: "7급", value: { tier: 7, sub_tier: 1 } },
+            { text: "6급", value: { tier: 6, sub_tier: 1 } },
+            { text: "준5급", value: { tier: 5, sub_tier: 2 } },
+            { text: "5급", value: { tier: 5, sub_tier: 1 } },
+            { text: "준4급", value: { tier: 4, sub_tier: 2 } },
+            { text: "4급", value: { tier: 4, sub_tier: 1 } },
+            { text: "준3급", value: { tier: 3, sub_tier: 2 } },
+            { text: "3급", value: { tier: 3, sub_tier: 1 } },
+            { text: "준2급", value: { tier: 2, sub_tier: 2 } },
+            { text: "2급", value: { tier: 2, sub_tier: 1 } },
+            { text: "준1급", value: { tier: 1, sub_tier: 2 } },
+            { text: "1급", value: { tier: 1, sub_tier: 1 } },
+            { text: "사범", value: { tier: 0, sub_tier: 1 } },
+            { text: "대사범", value: { tier: 0, sub_tier: 0 } },
+          ],
+        },
+        { id: 3, text: "한자교육진흥회", value: "G1003", tiers: [] },
       ],
-      tiers: [
-        { id: 1, text: "8급", value: 8 },
-        { id: 2, text: "7급", value: 7 },
-        { id: 3, text: "6급", value: 6 },
-        { id: 4, text: "5급", value: 5 },
-        { id: 5, text: "4급", value: 4 },
-        { id: 6, text: "3급", value: 3 },
-        { id: 7, text: "2급", value: 2 },
-        { id: 8, text: "1급", value: 1 },
-      ],
+
       searchingOrg: null,
       searchingTier: null,
+      searchingInclude: false,
       isValid: false,
       errorMessage: null,
     };
+  },
+  computed: {
+    formTiers() {
+      if (this.hanjaForm.org) {
+        let a = this.orgs.find((v) => v.value === this.hanjaForm.org);
+        return a.tiers;
+      } else {
+        return [];
+      }
+    },
+    tiers() {
+      if (this.searchingOrg) {
+        let a = this.orgs.find((v) => v.value === this.searchingOrg);
+        return a.tiers;
+      } else {
+        return [];
+      }
+    },
   },
   methods: {
     print() {
@@ -150,7 +221,9 @@ export default {
           .get("/hanja", {
             params: {
               org: this.searchingOrg,
-              tier: this.searchingTier,
+              tier: this.searchingTier.tier,
+              sub_tier: this.searchingTier.sub_tier,
+              searching_include: this.searchingInclude,
             },
           })
           .then((res) => {
@@ -168,6 +241,7 @@ export default {
           .then((res) => {
             this.errorMessage = null;
             this.$store.commit("closeModal");
+            this.searchHanja();
           })
           .catch((error) => {
             this.errorMessage = error.response.data.message;
@@ -202,12 +276,11 @@ export default {
   display: inline-flex;
   flex-direction: column;
   .letter {
-    font-size: 10rem;
+    font-size: 8rem;
   }
   .hanja-meta {
     display: flex;
     justify-content: space-around;
-    padding: 1rem;
     font-size: 18px;
   }
   .meaning {

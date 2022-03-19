@@ -12,7 +12,7 @@
       <div
         class="select_item"
         v-for="item in items"
-        :key="item.id"
+        :key="item.text"
         @click="onclickItem(item)"
       >
         {{ item.text }}
@@ -35,7 +35,7 @@ export default {
       required: true,
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Object],
       required: false,
     },
   },
