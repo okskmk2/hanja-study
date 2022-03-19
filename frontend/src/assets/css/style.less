@@ -8,6 +8,7 @@
 
 html {
   height: 100%;
+  overflow-y: scroll;
 }
 
 body {
@@ -46,4 +47,62 @@ h6 {
   padding: 0 4px;
   border: 1px solid #aaa;
   font-size: 14px;
+}
+
+.top-btn-subgroup {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  padding: 4px 8px;
+  background-color: #eeeeee;
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 2px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tag-group {
+  display: flex;
+  gap: 8px;
+}
+
+.selected-hanjas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  @media print {
+    display: block;
+  }
+}
+
+.hanja-letter {
+  padding: 1rem;
+  box-shadow: 1px 1px 4px 1px #ccc;
+  display: inline-flex;
+  flex-direction: column;
+
+  .letter {
+    font-size: 8rem;
+  }
+
+  .hanja-meta {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+  }
+
+  .meaning {}
+
+  .sound {}
+
+  @media print {
+    width: 140px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
 }

@@ -4,7 +4,7 @@
     style="height: 100%; background-color: #ddd"
   >
     <div class="login-form">
-      <h1>로그인</h1>
+      <h1>한자급수시험</h1>
       <div>
         <label>
           아이디

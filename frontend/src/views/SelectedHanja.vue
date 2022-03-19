@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h1>선정한자</h1>
-    <div class="row jc-between mb-1 no-print">
+    <h1 class="no-print">선정한자</h1>
+    <h1 class="only-print mb-1">
+      {{ currentOrgName }} {{ tierName }} 선정한자
+    </h1>
+    <div class="row jc-between no-print mb-05">
       <div class="top-btn-subgroup">
         <button @click="hideLetter = !hideLetter">
           <span>한자</span>
@@ -18,20 +21,20 @@
         <button @click="openAddHanjaModal">한자추가(관리자전용)</button>
       </div>
     </div>
-    <div class="row jc-between" style="margin-bottom: 8px">
-      <div class="filter-group">
+    <div class="row jc-between ai-center" style="margin-bottom: 8px">
+      <div class="filter-group no-print">
         <FilterSelect
           :items="orgs"
           label="기관"
           v-model="searchingOrg"
-          @input="searchHanja"
+          @input="[searchHanja(), $store.commit('setSearchingOrg', $event)]"
         />
         <FilterSelect
           v-if="searchingOrg"
           :items="tiers"
           label="급수"
           v-model="searchingTier"
-          @input="searchHanja"
+          @input="[searchHanja(), $store.commit('setTier', $event)]"
         />
         <div class="checkbox">
           <label for="searching_include">하위급수 선정한자 포함</label>
@@ -39,7 +42,7 @@
             id="searching_include"
             type="checkbox"
             v-model="searchingInclude"
-            @change="searchHanja"
+            @change="[searchHanja(), $store.commit('setSearchInclude', $event)]"
           />
         </div>
       </div>
@@ -48,11 +51,11 @@
     <div v-if="hanjas.length > 0">
       <div class="selected-hanjas">
         <div v-for="hanja in hanjas" :key="hanja.id" class="hanja-letter">
-          <div class="row jc-between">
+          <div class="row jc-between no-print">
             <span>
               {{ hanja.hanja_id }}
             </span>
-            <router-link to="/test-bank" class="icon">
+            <router-link :to="`/hanja/${hanja.hanja_id}`" class="icon">
               <SvgIcon :path="mdiDotsVertical" type="mdi" />
             </router-link>
           </div>
@@ -65,7 +68,7 @@
           </div>
         </div>
       </div>
-      <div class="mt-1">(페이지네이션 영역)</div>
+      <div class="mt-1 no-print">(페이지네이션 영역)</div>
     </div>
     <div v-else>
       <div v-if="!searchingOrg || !searchingTier">
@@ -116,6 +119,7 @@ import axiso from "axios";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiDotsVertical } from "@mdi/js";
 import FilterSelect from "../component/FilterSelect";
+import _ from "lodash";
 
 export default {
   components: { FilterSelect, SvgIcon },
@@ -207,6 +211,22 @@ export default {
         return [];
       }
     },
+    currentOrgName() {
+      if (this.searchingOrg) {
+        return this.orgs.find((v) => v.value === this.searchingOrg).text;
+      }
+    },
+    tierName() {
+      if (this.searchingOrg) {
+        let m = this.orgs.find((v) => v.value === this.searchingOrg);
+        if (m) {
+          let m2 = m.tiers.find((v) => _.isEqual(v.value, this.searchingTier));
+          if (m2) {
+            return m2.text;
+          }
+        }
+      }
+    },
   },
   methods: {
     print() {
@@ -252,6 +272,15 @@ export default {
       this.isValid = Object.values(value).every((v) => v);
     },
   },
+  created() {
+    this.searchingOrg = this.$store.state.org;
+    this.searchingTier = {
+      tier: this.$store.state.tier,
+      sub_tier: this.$store.state.sub_tier,
+    };
+    this.searchingInclude = this.$store.state.searchingInclude;
+    this.searchHanja();
+  },
   watch: {
     hanjaForm: {
       deep: true,
@@ -263,29 +292,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-.selected-hanjas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.hanja-letter {
-  padding: 1rem;
-  box-shadow: 1px 1px 4px 1px #ccc;
-  display: inline-flex;
-  flex-direction: column;
-  .letter {
-    font-size: 8rem;
-  }
-  .hanja-meta {
-    display: flex;
-    justify-content: space-around;
-    font-size: 18px;
-  }
-  .meaning {
-  }
-  .sound {
-  }
-}
-</style>

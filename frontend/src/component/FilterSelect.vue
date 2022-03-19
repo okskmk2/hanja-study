@@ -23,6 +23,7 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
+import _ from "lodash";
 import { mdiChevronDown, mdiCheck } from "@mdi/js";
 export default {
   props: {
@@ -56,6 +57,9 @@ export default {
       this.open = false;
       this.$emit("input", this.selectedItem?.value);
     },
+  },
+  created() {
+    this.selectedItem = this.items.find((v) => _.isEqual(v.value, this.value));
   },
 };
 </script>

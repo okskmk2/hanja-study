@@ -1,41 +1,24 @@
-const e = require('express');
 var express = require('express');
-const { pool } = require('../db');
 var router = express.Router();
+const hanja_service = require('../services/hanja.service');
 
 router.get('/', async function (req, res, next) {
   let { org, tier, sub_tier, searching_include } = req.query;
   tier = parseInt(tier);
   sub_tier = parseInt(sub_tier);
   searching_include = searching_include === 'true';
-  let conn = await pool.getConnection();
-  let sql = '';
-
-  if (searching_include) {
-    sql = `SELECT h.* FROM 
-    tb_hanja h, 
-    tb_org_tier_hanja o
-    WHERE o.org_id = ?
-    AND o.tier >= ?
-    AND o.sub_tier <= ?
-    AND o.hanja_id = h.hanja_id
-    order by h.sound asc
-    `
-  } else {
-    sql = `SELECT h.* FROM 
-    tb_hanja h, 
-    tb_org_tier_hanja o
-    WHERE o.org_id = ?
-    AND o.tier = ?
-    AND o.sub_tier = ?
-    AND o.hanja_id = h.hanja_id
-    order by h.sound asc
-    `
-  }
-
-  const hanjas = await conn.query(sql, [org, tier, sub_tier]);
-  conn.end();
+  const hanjas = await hanja_service.getSelectedHanja(searching_include, org, tier, sub_tier);
   res.json(Array.from(hanjas));
+});
+
+router.get('/:hanja_id', async function (req, res, next) {
+  try {
+    const hanja = await hanja_service.getHanjaDetail(req.params.hanja_id);
+    res.json(hanja);
+    console.log(hanja);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 router.post('/', async function (req, res, next) {
@@ -64,14 +47,14 @@ router.post('/', async function (req, res, next) {
   try {
     sql = `insert into tb_org_tier_hanja (org_id, hanja_id, tier, sub_tier ) values ( ?, ?, ?, ?)`;
     await conn.query(sql, [org, hanja_id, tier.tier, tier.sub_tier]);
+    conn.end();
+    res.sendStatus(201);
   } catch (error) {
     console.log(error.message);
     res.status(400).send({
       message: error.message
     });
-    conn.end();
   }
-  res.sendStatus(201);
 });
 
 module.exports = router;

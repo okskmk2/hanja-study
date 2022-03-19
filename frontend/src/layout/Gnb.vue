@@ -24,8 +24,8 @@ header {
   .brand {
     color: black;
   }
-  background-color: #fff176;
-  border-bottom: 1px solid;
+  background-color: #f0fff7;
+  border-bottom: 2px solid #33cda1;
   > div {
     width: 70rem;
     margin: 0 auto;
@@ -37,10 +37,12 @@ header {
       color: #424242;
       text-decoration: none;
       &.router-link-exact-active {
-        color: red;
+        color: inherit;
+        padding-bottom: 4px;
+        border-bottom: 2px solid red;
       }
       &:hover {
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
     .top-menu {

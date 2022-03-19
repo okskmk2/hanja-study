@@ -7,6 +7,7 @@ import TestBank from "../views/TestBank.vue";
 import FourLetters from "../views/FourLetters.vue";
 import LoginForm from "../views/LoginForm.vue";
 import Quiz from "../views/Quiz.vue";
+import HanjaDetail from "../views/HanjaDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,10 @@ const routes = [
       {
         path: 'quiz',
         component: Quiz
+      },
+      {
+        path: 'hanja/:hanja_id',
+        component: HanjaDetail
       },
     ]
   },
